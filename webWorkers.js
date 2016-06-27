@@ -1,14 +1,12 @@
-console.log('web worker start ');
-onmessage = function(event) {
-    console.log('web worker onmessage:', event.data);
-    var c = event.data,
-        a, b;
-    while (c-- > 0) {
-        a = 'saf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf';
-        b = a.split('a');
+'user strict';
+
+self.addEventListener('message', function (event) {
+    if (event.data === 'error') {
+        self.close(); // 终结自身线程
+        throw 'user exception';
     }
-    postMessage('执行完毕');
-    // setTimeout(function() {
-    //     postMessage(event.data * 2);
-    // }, 2000);
-};
+    setInterval(function () {
+        let dt = new Date();
+        postMessage(dt.toString());
+    }, 500);
+});

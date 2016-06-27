@@ -1,22 +1,31 @@
+'user strict';
+// 专用线程（dedicated worker）
 var worker = new Worker('./webWorkers.js');
-worker.addEventListener('message', function(event){
-    console.log('Receiving from Worker: '+event.data);
-    $('#prime').html( event.data );
+
+// event对象包含两个重要属性：
+//     target：用来指向发送信息的worker，在多worker环境下比较有用。
+//     data：由worker发回给父线程的数据
+worker.addEventListener('message', function (event) {
+    $('#rst').html(event.data);
 });
-$(worker).on('message',function (event) {
-    
+
+// 处理web worker抛出的异常
+worker.addEventListener('error', function (error) {
+    console.log(error);
+    $('#rst').html('Error: ' + error.filename);
 });
- 
-worker.onmessage = function(event) {
-    console.log(event.data);
-};
-console.log('app 主线程中');
-worker.postMessage(10000000);
- 
-//如果在主线程中执行如下代码浏览器会卡死
-// var c = 10000000;
-// while (c-- > 0) {
-//     var a = 'saf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf' + 'asf';
-//     var b = a.split('a');
-// }
-// console.log('执行完毕');
+
+// web worker在后台运行时，先在worker端序列化，然后在接收端反序列化
+// 因此不推荐向worker发送大量的数据。
+$('#btn').on('click', function () {
+    worker.postMessage('btn');
+});
+
+// 创建web worker对象后，它会继续监听消息（即使在外部脚本完成之后）直到其被终止为止
+// 在父线程使用terminate()方法终止web worker并释放浏览器/计算机资源
+$('#btn2').on('click', function () {
+    worker.terminate();
+});
+$('#btn3').on('click', function () {
+    worker.postMessage('error');
+});
