@@ -1,0 +1,23 @@
+{
+  "name": "web_workers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webWorkers.js",
+  "dependencies": {
+    "jquery": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhaoleiwhut/webWorkers.git"
+  },
+  "author": "zhaolei",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhaoleiwhut/webWorkers/issues"
+  },
+  "homepage": "https://github.com/zhaoleiwhut/webWorkers#readme"
+}

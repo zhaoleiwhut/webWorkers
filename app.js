@@ -1,4 +1,12 @@
-var worker = new Worker('/webWorkers.js');
+var worker = new Worker('./webWorkers.js');
+worker.addEventListener('message', function(event){
+    console.log('Receiving from Worker: '+event.data);
+    $('#prime').html( event.data );
+});
+$(worker).on('message',function (event) {
+    
+});
+ 
 worker.onmessage = function(event) {
     console.log(event.data);
 };
